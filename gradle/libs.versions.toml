@@ -5,6 +5,8 @@ jakartaServletApi = "6.1.0"
 jacksonDatabind = "3.0.3"
 h2 = "2.4.240"
 springDataJdbc = "4.0.1"
+lombok = "1.18.42"
+mapstruct = "1.6.3"
 
 [libraries]
 spring-webmvc = { group = "org.springframework", name = "spring-webmvc", version.ref = "springWebmvc" }
@@ -13,5 +15,7 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-jupiter-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 jakarta-servlet-api = { group = "jakarta.servlet", name = "jakarta.servlet-api", version.ref = "jakartaServletApi" }
 jackson-databind = { group = "tools.jackson.core", name = "jackson-databind", version.ref = "jacksonDatabind" }
-h2 = { group = "2.4.240", name = "h2", version.ref = "h2" }
-spring-data-jdbc = { group = "org.springframework.data", name = "spring-data-jdbc", version.ref = "springDataJdbc"}
+h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
+spring-data-jdbc = { group = "org.springframework.data", name = "spring-data-jdbc", version.ref = "springDataJdbc" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
