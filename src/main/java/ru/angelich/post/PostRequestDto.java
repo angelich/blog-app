@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class PostRequestDto {
-    String title;
-    String text;
-    List<String> tags;
+    private String title;
+    private String text;
+    private List<String> tags;
 }

@@ -15,11 +15,12 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity getAllPosts(@RequestParam String search,
-                                      @RequestParam Integer pageNumber,
-                                      @RequestParam Integer pageSize) {
+    public ResponseEntity<SearchPostsResponse> searchPosts(
+            @RequestParam(value = "search", defaultValue = "") String search,
+            @RequestParam("pageNumber") Integer pageNumber,
+            @RequestParam("pageSize") Integer pageSize) {
 
-        return null;
+        return ResponseEntity.ok(postService.searchPosts(search, pageNumber, pageSize));
     }
 
     @PostMapping("/{id}")

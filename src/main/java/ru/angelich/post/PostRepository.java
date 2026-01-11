@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class PostRepository { // TODO: Вынести в интерфейс
@@ -57,5 +58,20 @@ public class PostRepository { // TODO: Вынести в интерфейс
         }
 
         return post;
+    }
+
+    /// TODO описание если больше 128 символов, то обрезается до 128 символов и добавляется «…»
+    public List<Post> searchPosts(String searchSubstring, List<String> tags) {
+        String sql = "select id, title, description, likes_count, " +
+                "(select count(*) from comments where post_id = posts.id ) as comments_count " +
+                "from posts " +
+                "where title like ? and posts.id in (select post_id from tags where tag in (?))";
+
+        List<Post> posts = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), searchSubstring, tags);
+
+        posts.forEach(post -> post.setTags(
+                jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, post.getId())));
+
+        return posts;
     }
 }
