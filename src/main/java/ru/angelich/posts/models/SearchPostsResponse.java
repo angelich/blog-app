@@ -1,4 +1,4 @@
-package ru.angelich.post;
+package ru.angelich.posts.models;
 
 import java.util.List;
 

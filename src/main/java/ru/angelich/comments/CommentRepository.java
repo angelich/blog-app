@@ -1,4 +1,4 @@
-package ru.angelich.post;
+package ru.angelich.comments;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.angelich.comments.models.Comment;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;

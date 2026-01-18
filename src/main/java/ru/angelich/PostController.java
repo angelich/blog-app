@@ -1,10 +1,17 @@
-package ru.angelich.post;
+package ru.angelich;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import ru.angelich.comments.CommentService;
+import ru.angelich.comments.models.CommentRequest;
+import ru.angelich.comments.models.CommentResponse;
+import ru.angelich.posts.PostService;
+import ru.angelich.posts.models.Post;
+import ru.angelich.posts.models.PostRequestDto;
+import ru.angelich.posts.models.SearchPostsResponse;
 
 import java.util.List;
 

@@ -1,7 +1,10 @@
-package ru.angelich.post;
+package ru.angelich.comments;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
+import ru.angelich.comments.models.CommentRequest;
+import ru.angelich.comments.models.CommentResponse;
+import ru.angelich.posts.PostRepository;
 
 import java.util.List;
 
