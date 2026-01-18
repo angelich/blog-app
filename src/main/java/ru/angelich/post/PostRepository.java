@@ -28,9 +28,8 @@ public class PostRepository { // TODO: Вынести в интерфейс
                 .stream()
                 .findFirst();
 
-        post.ifPresent(p -> {
-            p.setTags(jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, id));
-        });
+        post.ifPresent(p ->
+                p.setTags(jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, id)));
 
         return post;
     }
@@ -87,5 +86,9 @@ public class PostRepository { // TODO: Вынести в интерфейс
 
     public void delete(Long id) {
         jdbcTemplate.update("delete from post where post_id=?", id);
+    }
+
+    public void likePost(Long id) {
+        jdbcTemplate.update("update post set likes_count = likes_count + 1 where id=?", id);
     }
 }

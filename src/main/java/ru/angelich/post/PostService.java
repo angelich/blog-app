@@ -84,4 +84,12 @@ public class PostService {
 
         postRepository.delete(id);
     }
+
+    public @NonNull Post likePost(Long id) {
+        var post = postRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("Post not found"));
+        postRepository.likePost(id);
+        post.setLikesCount(post.getLikesCount() + 1);
+        return post;
+    }
 }

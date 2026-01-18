@@ -45,8 +45,8 @@ public class PostController {
     }
 
     @PostMapping("/{id}/likes")
-    public ResponseEntity likePost(@PathVariable("id") Long id) {
-        return null;
+    public ResponseEntity<Post> likePost(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(postService.likePost(id));
     }
 
     @PostMapping("/{id}/image")
