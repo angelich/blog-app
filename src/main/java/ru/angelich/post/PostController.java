@@ -6,13 +6,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
+    private final CommentService commentService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -24,9 +28,9 @@ public class PostController {
         return ResponseEntity.ok(postService.searchPosts(search, pageNumber, pageSize));
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(postService.getPost(id));
+    @PostMapping("/{postId}")
+    public ResponseEntity<Post> getPost(@PathVariable("postId") Long postId) {
+        return ResponseEntity.ok(postService.getPost(postId));
     }
 
     @PostMapping
@@ -34,34 +38,67 @@ public class PostController {
         return ResponseEntity.ok(postService.createPost(postRequestDto));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestBody PostRequestDto postRequestDto) {
-        return ResponseEntity.ok(postService.updatePost(id, postRequestDto));
+    @PutMapping("/{postId}")
+    public ResponseEntity<Post> updatePost(@PathVariable("postId") Long postId,
+                                           @RequestBody PostRequestDto postRequestDto) {
+        return ResponseEntity.ok(postService.updatePost(postId, postRequestDto));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
-        postService.deletePost(id);
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable("postId") Long postId) {
+        postService.deletePost(postId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/likes")
-    public ResponseEntity<Post> likePost(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(postService.likePost(id));
+    @PostMapping("/{postId}/likes")
+    public ResponseEntity<Post> likePost(@PathVariable("postId") Long postId) {
+        return ResponseEntity.ok(postService.likePost(postId));
     }
 
-    @PostMapping("/{id}/image")
-    public ResponseEntity<Void> uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
-        postService.uploadImage(id, image);
+    @PostMapping("/{postId}/image")
+    public ResponseEntity<Void> uploadImage(@PathVariable("postId") Long postId,
+                                            @RequestParam("image") MultipartFile image) {
+        postService.uploadImage(postId, image);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/image")
-    public ResponseEntity<StreamingResponseBody> getImage(@PathVariable("id") Long id) {
-        StreamingResponseBody responseBody = outputStream -> postService.getImage(id, outputStream);
+    @GetMapping("/{postId}/image")
+    public ResponseEntity<StreamingResponseBody> getImage(@PathVariable("postId") Long postId) {
+        StreamingResponseBody responseBody = outputStream -> postService.getImage(postId, outputStream);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(responseBody);
+    }
+
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<List<CommentResponse>> getPostComments(@PathVariable("postId") Long postId) {
+        return ResponseEntity.ok(commentService.findAllByPostId(postId));
+    }
+
+    @GetMapping("/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentResponse> getComment(@PathVariable("postId") Long postId,
+                                                      @PathVariable("commentId") Long commentId) {
+        return ResponseEntity.ok(commentService.findById(postId, commentId));
+    }
+
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity<CommentResponse> createComment(@PathVariable("postId") Long postId,
+                                                         @RequestBody CommentRequest commentRequest) {
+        return ResponseEntity.ok(commentService.createComment(postId, commentRequest));
+    }
+
+    @PutMapping("/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentResponse> updateComment(@PathVariable("postId") Long postId,
+                                                         @PathVariable("commentId") Long commentId,
+                                                         @RequestBody CommentRequest commentRequest) {
+        return ResponseEntity.ok(commentService.updateComment(postId, commentId, commentRequest));
+    }
+
+
+    @DeleteMapping("/{postId}/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable("postId") Long postId, @PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(postId, commentId);
+        return ResponseEntity.ok().build();
     }
 }
