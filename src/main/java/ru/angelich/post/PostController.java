@@ -1,9 +1,10 @@
 package ru.angelich.post;
 
-import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -50,16 +51,17 @@ public class PostController {
     }
 
     @PostMapping("/{id}/image")
-    public ResponseEntity uploadImage(@PathVariable("id") Long id, @RequestBody MultipartFile file) {
-        return null;
+    public ResponseEntity<Void> uploadImage(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
+        postService.uploadImage(id, image);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/image")
-    public ResponseEntity<Resource> getImage(@PathVariable("id") Long id) {
-/*        Resource file = filesService.download(filename);
+    public ResponseEntity<StreamingResponseBody> getImage(@PathVariable("id") Long id) {
+        StreamingResponseBody responseBody = outputStream -> postService.getImage(id, outputStream);
+
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(file);*/
-        return null;
+                .body(responseBody);
     }
 }

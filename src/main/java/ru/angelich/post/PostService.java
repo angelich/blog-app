@@ -2,7 +2,12 @@ package ru.angelich.post;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -91,5 +96,24 @@ public class PostService {
         postRepository.likePost(id);
         post.setLikesCount(post.getLikesCount() + 1);
         return post;
+    }
+
+    public void uploadImage(Long id, MultipartFile image) {
+        postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Post not found"));
+
+        try (InputStream is = image.getInputStream()) {
+            postRepository.uploadImage(id, is, image.getSize());
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to process image file", e);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void getImage(Long id, OutputStream outputStream) {
+        postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Post not found"));
+
+        postRepository.getImage(id, outputStream);
     }
 }

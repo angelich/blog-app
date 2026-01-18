@@ -7,6 +7,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -85,10 +87,35 @@ public class PostRepository { // TODO: Вынести в интерфейс
     }
 
     public void delete(Long id) {
-        jdbcTemplate.update("delete from post where post_id=?", id);
+        jdbcTemplate.update("delete from post where post_id = ?", id);
     }
 
     public void likePost(Long id) {
-        jdbcTemplate.update("update post set likes_count = likes_count + 1 where id=?", id);
+        jdbcTemplate.update("update post set likes_count = likes_count + 1 where id = ?", id);
+    }
+
+    @Transactional
+    public void uploadImage(Long id, InputStream inputStream, long fileSize) {
+        String sql = "update post set image_data = ? WHERE id = ?";
+
+        jdbcTemplate.update(sql, ps -> {
+            ps.setBinaryStream(1, inputStream, fileSize);
+            ps.setLong(2, id);
+        });
+    }
+
+    public void getImage(Long id, OutputStream outputStream) {
+        String sql = "select image from post WHERE id = ?";
+
+        jdbcTemplate.query(sql, rs -> {
+            try (InputStream is = rs.getBinaryStream("image")) {
+                if (is != null) {
+                    is.transferTo(outputStream);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Ошибка при чтении потока из БД", e);
+            }
+            return null;
+        }, id);
     }
 }
