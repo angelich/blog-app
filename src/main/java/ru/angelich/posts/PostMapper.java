@@ -4,7 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.angelich.posts.models.Post;
-import ru.angelich.posts.models.PostRequestDto;
+import ru.angelich.posts.models.PostRequest;
+import ru.angelich.posts.models.PostResponse;
 
 @Mapper
 public interface PostMapper {
@@ -14,5 +15,7 @@ public interface PostMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "likesCount", constant = "0L")
     @Mapping(target = "commentsCount", constant = "0L")
-    Post toPost(PostRequestDto postRequestDto);
+    Post toPost(PostRequest postRequest);
+
+    PostResponse toPostResponse(Post post);
 }

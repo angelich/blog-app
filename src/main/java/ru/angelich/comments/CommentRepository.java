@@ -1,6 +1,5 @@
 package ru.angelich.comments;
 
-import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -21,7 +20,7 @@ public class CommentRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public @NonNull List<Comment> findAllByPostId(Long postId) {
+    public List<Comment> findAllByPostId(Long postId) {
         String sql = "select id, post_id, description from comment where post_id = ?";
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Comment.class), postId);

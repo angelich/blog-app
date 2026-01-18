@@ -9,8 +9,8 @@ import ru.angelich.comments.CommentService;
 import ru.angelich.comments.models.CommentRequest;
 import ru.angelich.comments.models.CommentResponse;
 import ru.angelich.posts.PostService;
-import ru.angelich.posts.models.Post;
-import ru.angelich.posts.models.PostRequestDto;
+import ru.angelich.posts.models.PostRequest;
+import ru.angelich.posts.models.PostResponse;
 import ru.angelich.posts.models.SearchPostsResponse;
 
 import java.util.List;
@@ -36,19 +36,19 @@ public class PostController {
     }
 
     @PostMapping("/{postId}")
-    public ResponseEntity<Post> getPost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<PostResponse> getPost(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(postService.getPost(postId));
     }
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody PostRequestDto postRequestDto) {
-        return ResponseEntity.ok(postService.createPost(postRequestDto));
+    public ResponseEntity<PostResponse> createPost(@RequestBody PostRequest postRequest) {
+        return ResponseEntity.ok(postService.createPost(postRequest));
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<Post> updatePost(@PathVariable("postId") Long postId,
-                                           @RequestBody PostRequestDto postRequestDto) {
-        return ResponseEntity.ok(postService.updatePost(postId, postRequestDto));
+    public ResponseEntity<PostResponse> updatePost(@PathVariable("postId") Long postId,
+                                                   @RequestBody PostRequest postRequest) {
+        return ResponseEntity.ok(postService.updatePost(postId, postRequest));
     }
 
     @DeleteMapping("/{postId}")
@@ -58,7 +58,7 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/likes")
-    public ResponseEntity<Post> likePost(@PathVariable("postId") Long postId) {
+    public ResponseEntity<PostResponse> likePost(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(postService.likePost(postId));
     }
 
