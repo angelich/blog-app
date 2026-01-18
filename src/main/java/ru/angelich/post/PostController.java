@@ -34,8 +34,8 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updatePost(@PathVariable("id") Long id, @RequestBody Post post) {
-        return null;
+    public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestBody PostRequestDto postRequestDto) {
+        return ResponseEntity.ok(postService.updatePost(id, postRequestDto));
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,6 @@
 package ru.angelich.post;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,5 +69,10 @@ public class PostService {
                 hasNext,
                 lastPage
         );
+    }
+
+    public @NonNull Post updatePost(Long id, PostRequestDto postRequestDto) {
+        postRepository.update(PostMapper.INSTANCE.toPost(postRequestDto));
+        return postRepository.findById(id);
     }
 }

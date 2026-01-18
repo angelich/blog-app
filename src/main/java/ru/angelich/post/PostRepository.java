@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -73,5 +74,14 @@ public class PostRepository { // TODO: Вынести в интерфейс
                 jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, post.getId())));
 
         return posts;
+    }
+
+    @Transactional
+    public void update(Post post) {
+        jdbcTemplate.update("delete from tags where post_id=?");
+        jdbcTemplate.update("update post set title=?, description=? where id=?");
+        for (String tag : post.getTags()) {
+            jdbcTemplate.update("insert into tags(post_id, tag) values(?, ?)", post.getId(), tag);
+        }
     }
 }
