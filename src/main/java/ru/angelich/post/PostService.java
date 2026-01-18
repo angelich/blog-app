@@ -22,7 +22,8 @@ public class PostService {
     }
 
     public Post getPost(Long id) {
-        return postRepository.findById(id);
+        return postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Post not found"));
     }
 
     public SearchPostsResponse searchPosts(String search, Integer pageNumber, Integer pageSize) {
@@ -72,7 +73,15 @@ public class PostService {
     }
 
     public @NonNull Post updatePost(Long id, PostRequestDto postRequestDto) {
-        postRepository.update(PostMapper.INSTANCE.toPost(postRequestDto));
-        return postRepository.findById(id);
+        postRepository.update(id, PostMapper.INSTANCE.toPost(postRequestDto));
+        return postRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("Post not found"));
+    }
+
+    public void deletePost(Long id) {
+        postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Post not found"));
+
+        postRepository.delete(id);
     }
 }

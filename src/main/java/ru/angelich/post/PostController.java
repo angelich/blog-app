@@ -39,8 +39,9 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePost(@PathVariable("id") Long id) {
-        return null;
+    public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
+        postService.deletePost(id);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/likes")

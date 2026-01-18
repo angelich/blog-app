@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PostRepository { // TODO: Вынести в интерфейс
@@ -19,18 +20,17 @@ public class PostRepository { // TODO: Вынести в интерфейс
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Post findById(Long id) {
+    public Optional<Post> findById(Long id) {
         String sql = "select id, title, description, likes_count, " +
                 "(select count(*) from comments where post_id = ?) as comments_count " +
                 "from posts where id = ?";
-        Post post = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), id, id)
+        Optional<Post> post = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), id, id)
                 .stream()
-                .findFirst()
-                .orElse(null);
+                .findFirst();
 
-        if (post != null) {
-            post.setTags(jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, id));
-        }
+        post.ifPresent(p -> {
+            p.setTags(jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, id));
+        });
 
         return post;
     }
@@ -77,11 +77,15 @@ public class PostRepository { // TODO: Вынести в интерфейс
     }
 
     @Transactional
-    public void update(Post post) {
-        jdbcTemplate.update("delete from tags where post_id=?");
-        jdbcTemplate.update("update post set title=?, description=? where id=?");
+    public void update(Long id, Post post) {
+        jdbcTemplate.update("delete from tags where post_id=?", id);
+        jdbcTemplate.update("update post set title=?, description=? where id=?", post.getTitle(), post.getDescription(), id);
         for (String tag : post.getTags()) {
             jdbcTemplate.update("insert into tags(post_id, tag) values(?, ?)", post.getId(), tag);
         }
+    }
+
+    public void delete(Long id) {
+        jdbcTemplate.update("delete from post where post_id=?", id);
     }
 }
