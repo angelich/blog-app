@@ -1,9 +1,4 @@
 package ru.angelich.comments.models;
 
-import lombok.Data;
-
-@Data
-public class CommentRequest {
-    private String text;
-    private Long postId;
+public record CommentRequest(String text, Long postId) {
 }
