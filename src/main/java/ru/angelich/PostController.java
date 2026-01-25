@@ -35,7 +35,7 @@ public class PostController {
         return ResponseEntity.ok(postService.searchPosts(search, pageNumber, pageSize));
     }
 
-    @PostMapping("/{postId}")
+    @GetMapping("/{postId}")
     public ResponseEntity<PostResponse> getPost(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(postService.getPost(postId));
     }
@@ -62,7 +62,7 @@ public class PostController {
         return ResponseEntity.ok(postService.likePost(postId));
     }
 
-    @PostMapping("/{postId}/image")
+    @PutMapping("/{postId}/image")
     public ResponseEntity<Void> uploadImage(@PathVariable("postId") Long postId,
                                             @RequestParam("image") MultipartFile image) {
         postService.uploadImage(postId, image);
@@ -74,7 +74,7 @@ public class PostController {
         StreamingResponseBody responseBody = outputStream -> postService.getImage(postId, outputStream);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentType(MediaType.IMAGE_JPEG)
                 .body(responseBody);
     }
 

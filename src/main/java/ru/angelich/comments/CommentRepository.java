@@ -21,13 +21,13 @@ public class CommentRepository {
     }
 
     public List<Comment> findAllByPostId(Long postId) {
-        String sql = "select id, post_id, description from comment where post_id = ?";
+        String sql = "select id, post_id, description from comments where post_id = ?";
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Comment.class), postId);
     }
 
     public Optional<Comment> findById(Long postId, Long commentId) {
-        String sql = "select id, post_id, description from comment where post_id = ? and id = ?";
+        String sql = "select id, post_id, description from comments where post_id = ? and id = ?";
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Comment.class), postId, commentId)
                 .stream()
@@ -41,7 +41,7 @@ public class CommentRepository {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, postId);
-            ps.setString(2, comment.getText());
+            ps.setString(2, comment.getDescription());
             return ps;
         }, keyHolder);
 
@@ -54,14 +54,14 @@ public class CommentRepository {
     }
 
     public Comment updateComment(Long postId, Long commentId, Comment comment) {
-        jdbcTemplate.update("update comment set description = ? where id = ? and post_id = ?",
-                comment.getText(), commentId, postId);
+        jdbcTemplate.update("update comments set description = ? where id = ? and post_id = ?",
+                comment.getDescription(), commentId, postId);
         return findById(postId, commentId).orElseThrow(
                 () -> new IllegalStateException("Комментарий не найден"));
     }
 
     public void deleteComment(Long postId, Long commentId) {
-        if (jdbcTemplate.update("delete from comment where id = ? and post_id = ?",
+        if (jdbcTemplate.update("delete from comments where id = ? and post_id = ?",
                 commentId, postId) != 1) {
             throw new IllegalArgumentException("Комментарий не найден");
         }

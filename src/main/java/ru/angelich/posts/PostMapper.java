@@ -17,5 +17,6 @@ public interface PostMapper {
     @Mapping(target = "commentsCount", constant = "0L")
     Post toPost(PostRequest postRequest);
 
+    @Mapping(source = "description", target = "text")
     PostResponse toPostResponse(Post post);
 }

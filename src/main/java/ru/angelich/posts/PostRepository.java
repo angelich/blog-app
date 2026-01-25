@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,17 +64,29 @@ public class PostRepository { // TODO: Вынести в интерфейс
         return post;
     }
 
-    /// TODO описание если больше 128 символов, то обрезается до 128 символов и добавляется «…»
     public List<Post> searchPosts(String searchSubstring, List<String> tags) {
-        String sql = "select id, title, description, likes_count, " +
-                "(select count(*) from comments where post_id = posts.id ) as comments_count " +
-                "from posts " +
-                "where title like ? and posts.id in (select post_id from tags where tag in (?))";
+        StringBuilder sql = new StringBuilder(
+                "SELECT id, title, description, likes_count, " +
+                        "(SELECT COUNT(*) FROM comments WHERE post_id = posts.id) AS comments_count " +
+                        "FROM posts WHERE 1=1"
+        );
 
-        List<Post> posts = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Post.class), searchSubstring, tags);
+        List<Object> params = new ArrayList<>();
+        if (searchSubstring != null && !searchSubstring.isEmpty()) {
+            sql.append(" AND title LIKE ?");
+            params.add("%" + searchSubstring + "%");
+        }
+
+        if (tags != null && !tags.isEmpty()) {
+            sql.append(" AND posts.id IN (SELECT post_id FROM tags WHERE tag = ANY(?))");
+            params.add(tags.toArray());
+        }
+
+        List<Post> posts = jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(Post.class), params.toArray());
 
         posts.forEach(post -> post.setTags(
-                jdbcTemplate.queryForList("select tag from tags where post_id = ?", String.class, post.getId())));
+                jdbcTemplate.queryForList("SELECT tag FROM tags WHERE post_id = ?", String.class, post.getId())
+        ));
 
         return posts;
     }
@@ -81,23 +94,23 @@ public class PostRepository { // TODO: Вынести в интерфейс
     @Transactional
     public void update(Long id, Post post) {
         jdbcTemplate.update("delete from tags where post_id=?", id);
-        jdbcTemplate.update("update post set title=?, description=? where id=?", post.getTitle(), post.getDescription(), id);
+        jdbcTemplate.update("update posts set title=?, description=? where id=?", post.getTitle(), post.getDescription(), id);
         for (String tag : post.getTags()) {
             jdbcTemplate.update("insert into tags(post_id, tag) values(?, ?)", post.getId(), tag);
         }
     }
 
     public void delete(Long id) {
-        jdbcTemplate.update("delete from post where post_id = ?", id);
+        jdbcTemplate.update("delete from posts where post_id = ?", id);
     }
 
     public void likePost(Long id) {
-        jdbcTemplate.update("update post set likes_count = likes_count + 1 where id = ?", id);
+        jdbcTemplate.update("update posts set likes_count = likes_count + 1 where id = ?", id);
     }
 
     @Transactional
     public void uploadImage(Long id, InputStream inputStream, long fileSize) {
-        String sql = "update post set image_data = ? WHERE id = ?";
+        String sql = "update posts set image = ? WHERE id = ?";
 
         jdbcTemplate.update(sql, ps -> {
             ps.setBinaryStream(1, inputStream, fileSize);
@@ -106,15 +119,17 @@ public class PostRepository { // TODO: Вынести в интерфейс
     }
 
     public void getImage(Long id, OutputStream outputStream) {
-        String sql = "select image from post WHERE id = ?";
+        String sql = "select image from posts WHERE id = ?";
 
         jdbcTemplate.query(sql, rs -> {
-            try (InputStream is = rs.getBinaryStream("image")) {
-                if (is != null) {
-                    is.transferTo(outputStream);
+            if (rs.next()) {
+                try (InputStream is = rs.getBinaryStream("image")) {
+                    if (is != null) {
+                        is.transferTo(outputStream);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Ошибка при чтении потока из БД", e);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("Ошибка при чтении потока из БД", e);
             }
             return null;
         }, id);

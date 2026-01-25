@@ -38,6 +38,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.war {
+    archiveFileName = "ROOT.war"
+}
+
 //dependencies {
 //    providedCompile("javax.servlet:servlet-api:2.5")
 //}

@@ -12,7 +12,9 @@ public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "description", source = "text")
     Comment toComment(CommentRequest commentRequest);
 
+    @Mapping(target = "text", source = "description")
     CommentResponse toCommentResponse(Comment comment);
 }

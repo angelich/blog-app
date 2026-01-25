@@ -22,6 +22,7 @@
             <param-value>ru.angelich.WebConfiguration</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
 
         <multipart-config>
             <max-file-size>5242880</max-file-size> <!-- 5MB -->

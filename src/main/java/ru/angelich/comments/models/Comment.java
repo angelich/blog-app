@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class Comment {
     private Long id;
-    private String text;
+    private String description;
     private Long postId;
 }

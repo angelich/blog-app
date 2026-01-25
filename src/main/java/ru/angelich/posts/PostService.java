@@ -70,7 +70,7 @@ public class PostService {
 
     public SearchPostsResponse searchPosts(String search, Integer pageNumber, Integer pageSize) {
         List<String> tags = new ArrayList<>();
-        StringBuilder searchBuilder = new StringBuilder(search);
+        StringBuilder searchBuilder = new StringBuilder();
         Arrays.stream(search.split(" "))
                 .map(String::trim)
                 .forEach(word -> {
