@@ -1,11 +1,8 @@
-package ru.angelich.posts;
+package ru.angelich.models.post;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import ru.angelich.posts.models.Post;
-import ru.angelich.posts.models.PostRequest;
-import ru.angelich.posts.models.PostResponse;
 
 @Mapper
 public interface PostMapper {

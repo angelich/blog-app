@@ -1,6 +1,6 @@
-package ru.angelich.comments;
+package ru.angelich.repositories;
 
-import ru.angelich.comments.models.Comment;
+import ru.angelich.models.comment.Comment;
 
 import java.util.List;
 import java.util.Optional;

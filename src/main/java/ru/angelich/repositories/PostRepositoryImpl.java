@@ -1,4 +1,4 @@
-package ru.angelich.posts;
+package ru.angelich.repositories;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,7 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.angelich.posts.models.Post;
+import ru.angelich.models.post.Post;
 
 import java.io.InputStream;
 import java.io.OutputStream;

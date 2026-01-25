@@ -1,8 +1,8 @@
-package ru.angelich.comments;
+package ru.angelich.services;
 
-import ru.angelich.comments.models.Comment;
-import ru.angelich.comments.models.CommentRequest;
-import ru.angelich.comments.models.CommentResponse;
+import ru.angelich.models.comment.Comment;
+import ru.angelich.models.comment.CommentRequest;
+import ru.angelich.models.comment.CommentResponse;
 
 import java.util.List;
 

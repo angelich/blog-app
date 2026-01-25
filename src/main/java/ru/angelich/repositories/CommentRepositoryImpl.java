@@ -1,11 +1,11 @@
-package ru.angelich.comments;
+package ru.angelich.repositories;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.angelich.comments.models.Comment;
+import ru.angelich.models.comment.Comment;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;

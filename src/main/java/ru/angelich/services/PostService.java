@@ -1,11 +1,11 @@
-package ru.angelich.posts;
+package ru.angelich.services;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.angelich.posts.models.Post;
-import ru.angelich.posts.models.PostRequest;
-import ru.angelich.posts.models.PostResponse;
-import ru.angelich.posts.models.SearchPostsResponse;
+import ru.angelich.models.post.Post;
+import ru.angelich.models.post.PostRequest;
+import ru.angelich.models.post.PostResponse;
+import ru.angelich.models.post.SearchPostsResponse;
 
 import java.io.OutputStream;
 

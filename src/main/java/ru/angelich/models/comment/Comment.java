@@ -1,4 +1,4 @@
-package ru.angelich.comments.models;
+package ru.angelich.models.comment;
 
 import lombok.Data;
 

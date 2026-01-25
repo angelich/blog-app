@@ -5,13 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import ru.angelich.comments.CommentService;
-import ru.angelich.comments.models.CommentRequest;
-import ru.angelich.comments.models.CommentResponse;
-import ru.angelich.posts.PostService;
-import ru.angelich.posts.models.PostRequest;
-import ru.angelich.posts.models.PostResponse;
-import ru.angelich.posts.models.SearchPostsResponse;
+import ru.angelich.models.comment.CommentRequest;
+import ru.angelich.models.comment.CommentResponse;
+import ru.angelich.models.post.PostRequest;
+import ru.angelich.models.post.PostResponse;
+import ru.angelich.models.post.SearchPostsResponse;
+import ru.angelich.services.CommentService;
+import ru.angelich.services.PostService;
 
 import java.util.List;
 

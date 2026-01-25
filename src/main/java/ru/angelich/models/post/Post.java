@@ -1,4 +1,4 @@
-package ru.angelich.posts.models;
+package ru.angelich.models.post;
 
 import lombok.Data;
 
