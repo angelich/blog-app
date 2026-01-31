@@ -90,6 +90,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse updatePost(Long id, PostRequest postRequest) {
+        getPostByIdOrThrow(id);
         postRepository.update(id, PostMapper.INSTANCE.toPost(postRequest));
         return PostMapper.INSTANCE.toPostResponse(getPostByIdOrThrow(id));
     }

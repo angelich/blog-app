@@ -11,27 +11,27 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.spring.webmvc)
-    implementation(libs.jackson.databind)
-    implementation(libs.spring.data.jdbc)
-//    implementation(libs.lombok)
-//    implementation(libs.mapstruct)
+    implementation("org.springframework:spring-webmvc:7.0.2")
+    implementation("tools.jackson.core:jackson-databind:3.0.3")
+    implementation("org.springframework.data:spring-data-jdbc:4.0.1")
     implementation("org.mapstruct:mapstruct:1.6.3")
-    compileOnly("org.projectlombok:lombok:1.18.42")
-    annotationProcessor("org.projectlombok:lombok:1.18.42")
 
-    // Обязательно для их совместной работы:
+    // Обязательно для совместной работы mapstruct и lombok:
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
 
-    runtimeOnly(libs.h2)
+    runtimeOnly("com.h2database:h2:2.4.240")
 
-    compileOnly(libs.jakarta.servlet.api)
+    compileOnly("jakarta.servlet:jakarta.servlet-api:6.1.0")
+    compileOnly("org.projectlombok:lombok:1.18.42")
 
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.2")
+    testImplementation("org.springframework:spring-test:7.0.2")
+    testImplementation("org.mockito:mockito-core:5.21.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.21.0")
 
-    testRuntimeOnly(libs.junit.jupiter.launcher)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.2")
 }
 
 tasks.test {
@@ -41,14 +41,3 @@ tasks.test {
 tasks.war {
     archiveFileName = "ROOT.war"
 }
-
-//dependencies {
-//    providedCompile("javax.servlet:servlet-api:2.5")
-//}
-//
-//tasks.war {
-//    webAppDirectory = file("src/main/webapp")
-//    from("src/rootContent") // adds a file-set to the root of the archive
-//    webInf { from("src/additionalWebInf") } // adds a file-set to the WEB-INF dir.
-//    webXml = file("src/someWeb.xml") // copies a file to WEB-INF/web.xml
-//}
