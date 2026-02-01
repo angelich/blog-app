@@ -106,7 +106,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public void delete(Long id) {
-        jdbcTemplate.update("delete from posts where post_id = ?", id);
+        jdbcTemplate.update("delete from posts where id = ?", id);
     }
 
     @Override

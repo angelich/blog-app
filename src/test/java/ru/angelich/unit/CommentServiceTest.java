@@ -1,4 +1,4 @@
-package ru.angelich.services;
+package ru.angelich.unit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,8 @@ import ru.angelich.models.comment.Comment;
 import ru.angelich.models.comment.CommentRequest;
 import ru.angelich.models.comment.CommentResponse;
 import ru.angelich.repositories.CommentRepository;
+import ru.angelich.services.CommentService;
+import ru.angelich.services.PostService;
 
 import java.util.List;
 import java.util.Optional;

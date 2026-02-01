@@ -74,7 +74,7 @@ public class PostController {
         StreamingResponseBody responseBody = outputStream -> postService.getImage(postId, outputStream);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.IMAGE_PNG)
                 .body(responseBody);
     }
 

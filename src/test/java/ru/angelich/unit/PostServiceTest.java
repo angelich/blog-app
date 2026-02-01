@@ -1,14 +1,15 @@
-package ru.angelich.services;
+package ru.angelich.unit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.angelich.PostConfig;
+import ru.angelich.PostTestConfig;
 import ru.angelich.models.post.Post;
 import ru.angelich.models.post.PostRequest;
 import ru.angelich.repositories.PostRepository;
+import ru.angelich.services.PostService;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringJUnitConfig(classes = PostConfig.class)
+@SpringJUnitConfig(classes = PostTestConfig.class)
 class PostServiceTest {
     @Autowired
     private PostService postService;

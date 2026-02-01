@@ -8,7 +8,7 @@ import ru.angelich.services.PostService;
 import ru.angelich.services.PostServiceImpl;
 
 @Configuration
-public class PostConfig {
+public class PostTestConfig {
 
     @Bean
     public PostService postService(PostRepository postRepository) {
