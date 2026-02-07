@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.angelich.PostTestConfig;
+import ru.angelich.UnitTestConfig;
 import ru.angelich.models.post.Post;
 import ru.angelich.models.post.PostRequest;
 import ru.angelich.repositories.PostRepository;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringJUnitConfig(classes = PostTestConfig.class)
+@SpringJUnitConfig(classes = UnitTestConfig.class)
 class PostServiceTest {
     @Autowired
     private PostService postService;

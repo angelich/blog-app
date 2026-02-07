@@ -4,11 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.angelich.CommentsConfig;
+import ru.angelich.UnitTestConfig;
 import ru.angelich.models.comment.Comment;
 import ru.angelich.models.comment.CommentRequest;
 import ru.angelich.models.comment.CommentResponse;
+import ru.angelich.models.post.Post;
 import ru.angelich.repositories.CommentRepository;
+import ru.angelich.repositories.PostRepository;
 import ru.angelich.services.CommentService;
 import ru.angelich.services.PostService;
 
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringJUnitConfig(classes = {CommentsConfig.class})
+@SpringJUnitConfig(classes = UnitTestConfig.class)
 class CommentServiceTest {
 
     @Autowired
@@ -31,6 +33,9 @@ class CommentServiceTest {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private PostRepository postRepository;
+
     @BeforeEach
     void setUp() {
         reset(commentRepository);
@@ -39,13 +44,15 @@ class CommentServiceTest {
     @Test
     void findAllByPostId_success() {
         Long postId = 1L;
+        var post = new Post(postId, "title", "text", List.of("tag1", "tag2"), 0L, 0L);
+
         Comment comment1 = new Comment(1L, "Content 1", postId);
         Comment comment2 = new Comment(2L, "Content 2", postId);
 
         CommentResponse response1 = new CommentResponse(1L, "Content 1", postId);
         CommentResponse response2 = new CommentResponse(2L, "Content 2", postId);
 
-        when(postService.getPostByIdOrThrow(postId)).thenReturn(null);
+        when(postRepository.findById(any())).thenReturn(Optional.of(post));
         when(commentRepository.findAllByPostId(postId)).thenReturn(List.of(comment1, comment2));
 
         List<CommentResponse> result = commentService.findAllByPostId(postId);
@@ -59,10 +66,13 @@ class CommentServiceTest {
 
     @Test
     void createComment_success() {
+        Long postId = 1L;
+        var post = new Post(postId, "title", "text", List.of("tag1", "tag2"), 0L, 0L);
+
         var commentRequest = new CommentRequest("Comment", 1L);
         var newComment = new Comment(1L, "Comment", 1L);
 
-        when(postService.getPostByIdOrThrow(any())).thenReturn(null);
+        when(postRepository.findById(any())).thenReturn(Optional.of(post));
         when(commentRepository.saveComment(any(), any())).thenReturn(newComment);
 
         var commentResponse = commentService.createComment(1L, commentRequest);
