@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.angelich.UnitTestConfig;
+import ru.angelich.errors.CommentNotFoundException;
 import ru.angelich.models.comment.Comment;
 import ru.angelich.models.comment.CommentRequest;
 import ru.angelich.models.comment.CommentResponse;
@@ -103,7 +104,7 @@ class CommentServiceTest {
 
         when(commentRepository.findById(any(), any())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(CommentNotFoundException.class, () ->
                 commentService.updateComment(1L, 1L, commentRequest));
     }
 

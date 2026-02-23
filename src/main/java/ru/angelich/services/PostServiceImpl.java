@@ -3,6 +3,7 @@ package ru.angelich.services;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.angelich.errors.PostNotFoundException;
 import ru.angelich.models.post.*;
 import ru.angelich.repositories.PostRepository;
 
@@ -97,9 +98,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(Long id) {
-        postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Post not found"));
-
+        getPostByIdOrThrow(id);
         postRepository.delete(id);
     }
 
@@ -132,6 +131,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post getPostByIdOrThrow(Long id) {
         return postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Post not found"));
+                () -> new PostNotFoundException("Post not found"));
     }
 }

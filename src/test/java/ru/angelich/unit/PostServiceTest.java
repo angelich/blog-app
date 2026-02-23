@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.angelich.UnitTestConfig;
+import ru.angelich.errors.PostNotFoundException;
 import ru.angelich.models.post.Post;
 import ru.angelich.models.post.PostRequest;
 import ru.angelich.repositories.PostRepository;
@@ -99,7 +100,7 @@ class PostServiceTest {
 
         when(postRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> postService.updatePost(1L, postRequest));
+        assertThrows(PostNotFoundException.class, () -> postService.updatePost(1L, postRequest));
         verify(postRepository, never()).update(any(), any());
     }
 
@@ -117,7 +118,7 @@ class PostServiceTest {
     void deletePost_postNotFound() {
         when(postRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> postService.deletePost(1L));
+        assertThrows(PostNotFoundException.class, () -> postService.deletePost(1L));
         verify(postRepository, never()).delete(any());
     }
 

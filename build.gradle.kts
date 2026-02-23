@@ -23,10 +23,15 @@ repositories {
     mavenCentral()
 }
 
+springBoot {
+    buildInfo() // включаем создание отчёта о сборке
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-h2console")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
