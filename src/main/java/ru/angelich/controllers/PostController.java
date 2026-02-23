@@ -1,4 +1,4 @@
-package ru.angelich;
+package ru.angelich.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,9 @@ import java.util.List;
 @RequestMapping("/api/posts")
 public class PostController {
     private final PostService postService;
-    private final CommentService commentService;
 
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService) {
         this.postService = postService;
-        this.commentService = commentService;
     }
 
     @GetMapping
@@ -76,36 +74,5 @@ public class PostController {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .body(responseBody);
-    }
-
-    @GetMapping("/{postId}/comments")
-    public ResponseEntity<List<CommentResponse>> getPostComments(@PathVariable("postId") Long postId) {
-        return ResponseEntity.ok(commentService.findAllByPostId(postId));
-    }
-
-    @GetMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity<CommentResponse> getComment(@PathVariable("postId") Long postId,
-                                                      @PathVariable("commentId") Long commentId) {
-        return ResponseEntity.ok(commentService.findById(postId, commentId));
-    }
-
-    @PostMapping("/{postId}/comments")
-    public ResponseEntity<CommentResponse> createComment(@PathVariable("postId") Long postId,
-                                                         @RequestBody CommentRequest commentRequest) {
-        return ResponseEntity.ok(commentService.createComment(postId, commentRequest));
-    }
-
-    @PutMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity<CommentResponse> updateComment(@PathVariable("postId") Long postId,
-                                                         @PathVariable("commentId") Long commentId,
-                                                         @RequestBody CommentRequest commentRequest) {
-        return ResponseEntity.ok(commentService.updateComment(postId, commentId, commentRequest));
-    }
-
-
-    @DeleteMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable("postId") Long postId, @PathVariable("commentId") Long commentId) {
-        commentService.deleteComment(postId, commentId);
-        return ResponseEntity.ok().build();
     }
 }

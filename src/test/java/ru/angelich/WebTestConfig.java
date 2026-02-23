@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import ru.angelich.controllers.CommentController;
+import ru.angelich.controllers.PostController;
 import ru.angelich.repositories.CommentRepository;
 import ru.angelich.repositories.CommentRepositoryImpl;
 import ru.angelich.repositories.PostRepository;
@@ -17,8 +19,13 @@ import ru.angelich.services.PostServiceImpl;
 @EnableWebMvc
 public class WebTestConfig {
     @Bean
-    public PostController postController(PostService postService, CommentService commentService) {
-        return new PostController(postService, commentService);
+    public PostController postController(PostService postService) {
+        return new PostController(postService);
+    }
+
+    @Bean
+    public CommentController commentController(CommentService commentService) {
+        return new CommentController(commentService);
     }
 
     @Bean
