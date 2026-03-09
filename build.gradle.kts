@@ -54,12 +54,13 @@ dependencies {
 
   //  testImplementation("org.junit.jupiter:junit-jupiter:6.0.2")
   //  testImplementation("org.springframework:spring-test:7.0.2")
-    testImplementation("org.mockito:mockito-core:5.21.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:5.21.0")
-    testImplementation("org.hamcrest:hamcrest:3.0")
+//    testImplementation("org.mockito:mockito-core:5.21.0")
+//    testImplementation("org.mockito:mockito-junit-jupiter:5.21.0")
+//    testImplementation("org.hamcrest:hamcrest:3.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jdbc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    //testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     //testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.2")
 }

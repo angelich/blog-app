@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.angelich.UnitTestConfig;
 import ru.angelich.errors.PostNotFoundException;
@@ -26,7 +27,7 @@ class PostServiceTest {
     @Autowired
     private PostService postService;
 
-    @Autowired
+    @MockitoBean
     private PostRepository postRepository;
 
     @BeforeEach
