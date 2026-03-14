@@ -1,8 +1,8 @@
 package ru.angelich;
 
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import ru.angelich.repositories.CommentRepository;
 import ru.angelich.repositories.PostRepository;
 import ru.angelich.services.CommentService;
@@ -10,7 +10,7 @@ import ru.angelich.services.CommentServiceImpl;
 import ru.angelich.services.PostService;
 import ru.angelich.services.PostServiceImpl;
 
-@Configuration
+@TestConfiguration
 public class UnitTestConfig {
 
     @Bean
