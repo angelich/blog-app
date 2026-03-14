@@ -1,6 +1,5 @@
 package ru.angelich.unit;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
@@ -18,9 +17,18 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = UnitTestConfig.class)
 class PostServiceTest {
@@ -29,11 +37,6 @@ class PostServiceTest {
 
     @MockitoBean
     private PostRepository postRepository;
-
-    @BeforeEach
-    void setUp() {
-        reset(postRepository);
-    }
 
     @Test
     void createPost_success() {

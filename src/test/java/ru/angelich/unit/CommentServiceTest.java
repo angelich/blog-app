@@ -1,8 +1,8 @@
 package ru.angelich.unit;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.angelich.UnitTestConfig;
 import ru.angelich.errors.CommentNotFoundException;
@@ -18,9 +18,13 @@ import ru.angelich.services.PostService;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = UnitTestConfig.class)
 class CommentServiceTest {
@@ -28,19 +32,14 @@ class CommentServiceTest {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
+    @MockitoBean
     private CommentRepository commentRepository;
 
     @Autowired
     private PostService postService;
 
-    @Autowired
+    @MockitoBean
     private PostRepository postRepository;
-
-    @BeforeEach
-    void setUp() {
-        reset(commentRepository);
-    }
 
     @Test
     void findAllByPostId_success() {
