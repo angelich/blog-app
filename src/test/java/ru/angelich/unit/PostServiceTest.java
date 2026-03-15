@@ -1,11 +1,12 @@
 package ru.angelich.unit;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.angelich.UnitTestConfig;
+import ru.angelich.errors.PostNotFoundException;
 import ru.angelich.models.post.Post;
 import ru.angelich.models.post.PostRequest;
 import ru.angelich.repositories.PostRepository;
@@ -16,22 +17,26 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = UnitTestConfig.class)
 class PostServiceTest {
     @Autowired
     private PostService postService;
 
-    @Autowired
+    @MockitoBean
     private PostRepository postRepository;
-
-    @BeforeEach
-    void setUp() {
-        reset(postRepository);
-    }
 
     @Test
     void createPost_success() {
@@ -99,7 +104,7 @@ class PostServiceTest {
 
         when(postRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> postService.updatePost(1L, postRequest));
+        assertThrows(PostNotFoundException.class, () -> postService.updatePost(1L, postRequest));
         verify(postRepository, never()).update(any(), any());
     }
 
@@ -117,7 +122,7 @@ class PostServiceTest {
     void deletePost_postNotFound() {
         when(postRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> postService.deletePost(1L));
+        assertThrows(PostNotFoundException.class, () -> postService.deletePost(1L));
         verify(postRepository, never()).delete(any());
     }
 

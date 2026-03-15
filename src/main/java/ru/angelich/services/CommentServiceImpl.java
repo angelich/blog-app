@@ -1,6 +1,7 @@
 package ru.angelich.services;
 
 import org.springframework.stereotype.Service;
+import ru.angelich.errors.CommentNotFoundException;
 import ru.angelich.models.comment.Comment;
 import ru.angelich.models.comment.CommentMapper;
 import ru.angelich.models.comment.CommentRequest;
@@ -59,6 +60,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment findCommentOrThrow(Long postId, Long commentId) {
         return commentRepository.findById(postId, commentId).orElseThrow(
-                () -> new IllegalArgumentException("Comment not found"));
+                () -> new CommentNotFoundException("Comment not found"));
     }
 }
