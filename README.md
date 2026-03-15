@@ -10,14 +10,14 @@
 
 Сборка проекта:
 
-`mvn clean package`
+`gradlew bootJar`
 
 Запуск проекта:
-`java -jar target/blog-app.jar`
+`java -jar build/libs/myApp.jar `
 
 Запуск тестов:
 
-`mvn test`
+`gradlew bootTestRun`
 
 
 Приложение будет доступно по корневому пути / (http://localhost:8080/)
@@ -32,5 +32,4 @@
 - **MapStruct** — для маппинга
 - **Lombok** — для уменьшения boilerplate-кода
 - **H2 Database** — встроенная СУБД
-- **Maven** — система сборки
-- **Spring Boot Actuator** — для мониторинга и информации о приложении
+- **Gradle** — система сборки c использованием Kotlin
